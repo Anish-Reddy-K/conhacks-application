@@ -1,61 +1,100 @@
 import { withAuth, signOut, getSignUpUrl } from '@workos-inc/authkit-nextjs';
 import Link from 'next/link';
+import Image from 'next/image';
+import { ApplicationForm } from './components/ApplicationForm';
 
 export default async function HomePage() {
-  // Retrieves the user from the session or returns null if no user is signed in
   const { user } = await withAuth();
-
-  // Get the URL to redirect the user to AuthKit to sign up
   const signUpUrl = await getSignUpUrl();
 
   if (!user) {
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-black">
-        <h1 className="text-5xl font-bold text-gray-900 dark:text-white">
-          ConHacks 2026
-        </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300">
-          Sign in to register for the hackathon
-        </p>
-        <div className="flex gap-4 mt-4">
-          <a
-            href="/login"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
-          >
-            Sign In
-          </a>
-          <Link
-            href={signUpUrl}
-            className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-800 font-semibold px-8 py-3 rounded-lg transition-colors"
-          >
-            Sign Up
-          </Link>
+      <main>
+        <div className="container">
+          {/* Header */}
+          <header className="header">
+            <Image
+              src="/cloudlogo-transparant.png"
+              alt="ConHacks"
+              width={140}
+              height={140}
+              className="float mx-auto"
+              style={{ imageRendering: 'pixelated' }}
+              priority
+            />
+            <Image
+              src="/conhacks2026-banner.png"
+              alt="ConHacks 2026"
+              width={280}
+              height={70}
+              className="mx-auto mb-4"
+              style={{ imageRendering: 'pixelated' }}
+              priority
+            />
+            <p className="header-subtitle">March 27-29, 2026 • Conestoga College</p>
+          </header>
+
+          {/* Login Card */}
+          <div className="card">
+            <p style={{ textAlign: 'center', marginBottom: '24px', color: 'var(--text-secondary)' }}>
+              Sign in to register for the hackathon
+            </p>
+            
+            <div className="landing-buttons">
+              <a href="/login" className="btn btn-primary">
+                Sign In
+              </a>
+              <Link href={signUpUrl} className="btn btn-secondary">
+                Sign Up
+              </Link>
+            </div>
+          </div>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gradient-to-b from-green-50 to-white dark:from-gray-900 dark:to-black">
-      <h1 className="text-5xl font-bold text-gray-900 dark:text-white">
-        Welcome, {user.firstName || user.email}!
-      </h1>
-      <p className="text-xl text-gray-600 dark:text-gray-300">
-        You&apos;re logged in to ConHacks
-      </p>
-      <form
-        action={async () => {
-          'use server';
-          await signOut();
-        }}
-      >
-        <button
-          type="submit"
-          className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors mt-4"
-        >
-          Sign Out
-        </button>
-      </form>
+    <main>
+      <div className="container">
+        {/* Header */}
+        <header className="header">
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Image
+              src="/cloudlogo-transparant.png"
+              alt="ConHacks"
+              width={80}
+              height={80}
+              className="float"
+              style={{ imageRendering: 'pixelated' }}
+              priority
+            />
+          </div>
+          <h1 className="header-title">ConHacks 2026</h1>
+          <p className="header-subtitle">
+            Welcome back, {user.firstName || user.email?.split('@')[0]}
+          </p>
+        </header>
+
+        {/* Application Form */}
+        <div className="card">
+          <ApplicationForm userEmail={user.email || ''} />
+        </div>
+
+        {/* Footer */}
+        <footer className="footer">
+          <form
+            action={async () => {
+              'use server';
+              await signOut();
+            }}
+          >
+            <button type="submit" className="btn btn-danger">
+              Sign Out
+            </button>
+          </form>
+        </footer>
+      </div>
     </main>
   );
 }
