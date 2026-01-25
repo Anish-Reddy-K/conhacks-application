@@ -10,33 +10,52 @@ export default async function HomePage() {
   if (!user) {
     return (
       <main>
+        {/* MLH Trust Badge */}
+        <a
+          className="mlh-badge"
+          href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2026-season&utm_content=white"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="https://s3.amazonaws.com/logged-assets/trust-badge/2026/mlh-trust-badge-2026-white.svg"
+            alt="Major League Hacking 2026 Hackathon Season"
+            width={100}
+            height={175}
+            style={{ width: '100%', height: 'auto' }}
+          />
+        </a>
+
         <div className="container">
           {/* Header */}
           <header className="header">
-            <Image
-              src="/cloudlogo-transparant.png"
-              alt="ConHacks"
-              width={140}
-              height={140}
-              className="float mx-auto"
-              style={{ imageRendering: 'pixelated' }}
-              priority
-            />
-            <Image
-              src="/conhacks2026-banner.png"
-              alt="ConHacks 2026"
-              width={280}
-              height={70}
-              className="mx-auto mb-4"
-              style={{ imageRendering: 'pixelated' }}
-              priority
-            />
-            <p className="header-subtitle">March 27-29, 2026 • Conestoga College</p>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Image
+                src="/cloudlogo-transparant.png"
+                alt="ConHacks"
+                width={320}
+                height={160}
+                className="float"
+                style={{ imageRendering: 'pixelated', marginTop: '5px' }}
+                priority
+              />
+              <Image
+                src="/conhacks2026-banner.png"
+                alt="ConHacks 2026"
+                width={320}
+                height={80}
+                style={{ imageRendering: 'pixelated' }}
+                priority
+              />
+            </div>
+            <p className="header-subtitle" style={{ marginTop: '20px' }}>
+              March 27-29, 2026 • Conestoga College, Waterloo Campus
+            </p>
           </header>
 
           {/* Login Card */}
           <div className="card">
-            <p style={{ textAlign: 'center', marginBottom: '24px', color: 'var(--text-secondary)' }}>
+            <p style={{ textAlign: 'center', marginBottom: '28px', color: 'var(--text-secondary)', fontSize: '15px' }}>
               Sign in to register for the hackathon
             </p>
             
@@ -56,24 +75,44 @@ export default async function HomePage() {
 
   return (
     <main>
+      {/* MLH Trust Badge */}
+      <a
+        className="mlh-badge"
+        href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2026-season&utm_content=white"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Image
+          src="https://s3.amazonaws.com/logged-assets/trust-badge/2026/mlh-trust-badge-2026-white.svg"
+          alt="Major League Hacking 2026 Hackathon Season"
+          width={100}
+          height={175}
+          style={{ width: '100%', height: 'auto' }}
+        />
+      </a>
+
       <div className="container">
         {/* Header */}
         <header className="header">
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Image
               src="/cloudlogo-transparant.png"
               alt="ConHacks"
-              width={80}
-              height={80}
+              width={320}
+              height={160}
               className="float"
+              style={{ imageRendering: 'pixelated', marginTop: '5px' }}
+              priority
+            />
+            <Image
+              src="/conhacks2026-banner.png"
+              alt="ConHacks 2026"
+              width={320}
+              height={80}
               style={{ imageRendering: 'pixelated' }}
               priority
             />
           </div>
-          <h1 className="header-title">ConHacks 2026</h1>
-          <p className="header-subtitle">
-            Welcome back, {user.firstName || user.email?.split('@')[0]}
-          </p>
         </header>
 
         {/* Application Form */}
@@ -81,19 +120,22 @@ export default async function HomePage() {
           <ApplicationForm userEmail={user.email || ''} />
         </div>
 
-        {/* Footer */}
-        <footer className="footer">
+        {/* User Footer */}
+        <div className="user-footer">
+          <span>Signed in as {user.firstName || user.email?.split('@')[0]}</span>
+          <span className="user-footer-dot">•</span>
           <form
             action={async () => {
               'use server';
               await signOut();
             }}
+            style={{ display: 'inline' }}
           >
-            <button type="submit" className="btn btn-danger">
+            <button type="submit" className="user-footer-link">
               Sign Out
             </button>
           </form>
-        </footer>
+        </div>
       </div>
     </main>
   );
